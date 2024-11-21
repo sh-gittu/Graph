@@ -1,0 +1,7 @@
+https://www.techiedelight.com/depth-first-search/
+
+The time complexity of DFS traversal is O(V + E), where V and E are the total number of vertices and edges in the graph, respectively. 
+Please note that O(E) may vary between O(1) and O(V2), depending on how dense the graph is.
+
+TREE:
+Def: An undirected graph is a tree if it is connected and does not contain a cycle. 
