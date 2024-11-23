@@ -1,0 +1,70 @@
+Def: An undirected graph is connected if for every pair of nodes u and v, there is a path between u and v.
+
+Def. An undirected graph is a tree if it is connected and does not contain  a cycle.
+
+Connectivity  ------>>>> BFS
+s-t connectivity problem. Given two nodes s and t, is there a path between  s and t ?
+s-t shortest path problem. Given two nodes s and t, what is the length of  a shortest path between s and t ?
+
+
+Connected component. Find all nodes reachable from s.  ----->>> Flood Fill
+
+Graph search
+Directed reachability. Given a node s, find all nodes reachable from s. 
+Directed s↝t shortest path problem. Given two nodes s and t, what is the length of a shortest path from s to t ?
+Graph search. BFS extends naturally to directed graphs.
+Web crawler. Start from web page s. Find all web pages linked from s,  either directly or indirectly.
+
+------>>>>> Strong Connectivity
+Def. Nodes u and v are mutually reachable if there is both a path from u to v and also a path from v to u.
+Def. A graph is strongly connected if every pair of nodes is mutually reachable.
+
+Lemma. Let s be any node. G is strongly connected iff every node is reachable from s, and s is reachable from every node.
+
+Strong Connectivity Algorithm Theorem: Can determine if G is strongly connected in O(m + n) time.
+Pf.
+・Pick any node s.
+・Run BFS from s in G. reverse orientation of every edge in G
+・Run BFS from s in G reverse.
+・Return true iff all nodes reached in both BFS executions. 
+・Correctness follows immediately from previous lemma.
+
+----->>>>> Directed Acyclic Graph
+Def. A DAG is a directed graph that contains no directed cycles.
+Def. A topological order of a directed graph G = (V, E) is an ordering of its nodes as v1, v2, ..., vn 
+    so that for every edge (vi, vj) we have i < j.
+Applications.
+* Course prerequisite graph: course vi must be taken before vj. 
+* Compilation: module vi must be compiled before vj .
+* Pipeline of computing jobs: output of job vi needed to determine input of job vj.
+
+Lemma. If G has a topological order, then G is a DAG. If G is a DAG, then G has a topological ordering.
+
+Lemma. If G is a DAG, then G has a node with no entering edges.
+
+To compute topological ordering of G:
+  Base case: if n==1 return true;
+  Find a node v with no incoming edges and order it first
+  Delete v from G
+  Recursively compute a topological ordering of G-{v} and append this order after v
+
+Topological sorting algorithm: running time
+Theorem. Algorithm finds a topological order in O(m + n) time.
+Pf.
+・Maintain the following information:
+- count(w) = remaining number of incoming edges
+- S = set of remaining nodes with no incoming edges
+・Initialization: O(m + n) via single scan through graph. 
+・Update: to delete v
+- remove v from S
+- decrement count(w) for all edges from v to w;  and add w to S if count(w) hits 0
+- this is O(1) per edge
+
+
+
+
+
+
+
+
+
