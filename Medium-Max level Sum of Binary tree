@@ -1,0 +1,36 @@
+Java Solution: Using BFS approach
+class Solution {
+    public int maxLevelSum(TreeNode root) {
+        int mxLvlSm = root.val;
+        int levelSum ;
+        int ans=1;
+        int temp_level=0;
+        Queue<TreeNode> q = new LinkedList<>();
+        q.add(root);
+
+        while(!q.isEmpty()) {
+            int level = q.size();
+            temp_level++;
+            levelSum=0;
+            for(int i=0; i<level; i++) {
+                TreeNode node = q.poll();
+                levelSum += node.val;
+                //q.poll();
+                if(node.left!=null) 
+                    q.add(node.left);
+                if(node.right!=null)
+                    q.add(node.right);
+                
+            }
+            if(levelSum> mxLvlSm) {
+                mxLvlSm = levelSum;
+                ans = temp_level;
+            }
+        }
+        return ans;
+    }
+}
+
+Time Complexity: O(n)
+Space Complexity: O(n) Best case: O(1) as storing level wise in queue(all levels have just one node)
+        Worst case: O(n) he BFS queue will be most crowded when all of the nodes from the last level (or second last level) are in the queue.
