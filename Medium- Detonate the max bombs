@@ -1,0 +1,57 @@
+Java solution using BFS
+class Solution {
+    private int[][] bombs;
+    private boolean whithinRange(int x, int y) {
+        int x1 = bombs[x][0], x2 = bombs[y][0];
+        int y1 = bombs[x][1], y2 = bombs[y][1];
+        long val = (long)(x2-x1)*(x2-x1) + (long)(y2-y1)*(y2-y1);
+        long radius = (long)bombs[x][2]*bombs[x][2];
+        return radius>=val;
+    }
+    public int maximumDetonation(int[][] bombs) {
+        this.bombs = bombs;
+        int n = bombs.length;
+        if(n==1)
+            return 1;
+        boolean[][] graph = new boolean[n][n];
+        //find edges of graph
+        for(int i=0; i<n; i++) {
+            for(int j=0; j<n; j++) {
+                graph[i][j] = whithinRange(i,j);                
+            }
+        }
+        //now traverse the graph
+        int maxDet = 0;
+        for(int i=0; i<n; i++) {
+            Queue<Integer> q = new LinkedList<>();
+            q.offer(i);
+            boolean[] visited = new boolean[n]; //to avoid infinite loop
+            visited[i]=true;
+            int detonates = 0;
+            
+            while(!q.isEmpty()) {
+                int temp = q.poll();
+                detonates++;
+                for(int j=0; j<n; j++) {
+                    if(graph[temp][j] && !visited[j])  {
+                        q.offer(j);
+                        visited[j]=true;
+                    }
+                }
+            }
+            maxDet = Math.max(maxDet, detonates);
+        }
+        return maxDet;
+    }
+}
+
+Time complexity- O(n^2) to contruct graph, for BFS- O(n+e) in the worst case each bomb can detonate every other bomb, e can be O(n^2). So the complexity for each BFS becomes O(n^2)
+                outer loop runs BFS for each bomb, so  O(n^2) + O(n) * O(n^2), i.e O(n^3)
+
+Space Complexity- graph requires O(n^2) space, queue requires O(n). Overall- O(n^2)
+
+
+
+
+
+
