@@ -1,0 +1,32 @@
+Handling the children first prevents premature removal of nodes and ensures that all nodes are correctly added to the forest.
+Java Recursion:
+class Solution {
+    List<TreeNode> forest = new ArrayList<>();
+    private TreeNode traverse(TreeNode root, Set<Integer> set) {
+        if(root==null)
+            return null;
+        root.left = traverse(root.left, set);
+        root.right = traverse(root.right, set);
+
+        if(set.contains(root.val)) {
+            if(root.left!=null)
+                forest.add(root.left);
+            if(root.right!=null)
+                forest.add(root.right);
+            return null;
+        }
+        return root;
+    }
+    public List<TreeNode> delNodes(TreeNode root, int[] to_delete) {        
+        Set<Integer> set = new HashSet<>();
+        for(int i: to_delete) {
+            set.add(i);
+        }
+        root = traverse(root, set);
+        if(root!=null) // If the root is not deleted, add it to the forest
+            forest.add(root);
+        return forest; 
+    }
+}
+
+Time/Space Complexity: O(n)
