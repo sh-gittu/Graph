@@ -1,0 +1,70 @@
+Java - LCA + DFS
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+    private TreeNode LCA(TreeNode root, int startValue, int destValue)  {
+        if(root ==null)
+            return null;
+        if(root.val==startValue || root.val==destValue)
+            return root;
+        TreeNode leftchild = LCA(root.left, startValue, destValue);
+        TreeNode rightchild = LCA(root.right, startValue, destValue);
+        if(leftchild!=null && rightchild!=null) 
+            return root;
+        return leftchild!=null? leftchild: rightchild;
+    }
+
+    private boolean dfs(TreeNode root, int Value, StringBuilder path) {
+        if(root==null)
+            return false;
+        if(root.val==Value)
+            return true;
+        path.append('L');
+        if(dfs(root.left, Value, path)) 
+            return true;
+        path.setLength(path.length()-1);  //removes last char
+        
+        path.append('R');
+        if(dfs(root.right, Value, path)) 
+            return true;
+        path.setLength(path.length()-1);
+        return false;
+    }
+
+    public String getDirections(TreeNode root, int startValue, int destValue) {
+        TreeNode ancestor = LCA(root, startValue, destValue);
+        StringBuilder startPath = new StringBuilder();
+        StringBuilder destPath = new StringBuilder();
+
+        dfs(ancestor, startValue, startPath);
+        dfs(ancestor, destValue, destPath);
+        
+
+        StringBuilder ans = new StringBuilder();
+        ans.append("U".repeat(startPath.length()));
+        ans.append(destPath);
+        return ans.toString();
+    }
+}
+
+
+Time Complexity - LCU: O(n) + DFS: O(n) + adding U: O(n) --> 3.O(n)
+Space Complexity - O(n)
+
+
+
+
+
